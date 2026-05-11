@@ -191,46 +191,41 @@ export default function PhilippinesMap() {
   const [regions, setRegions] = useState(initialRegions);
   const [activeRegion, setActiveRegion] = useState(initialRegions[0]);
 
-useEffect(() => {
-  const fetchVotes = async () => {
-    try {
-      const res = await fetch("/api/results");
-      const data = await res.json();
+  useEffect(() => {
+    const fetchVotes = async () => {
+      try {
+        const res = await fetch("/api/results");
+        const data = await res.json();
 
-      const updatedRegions = initialRegions.map((region) => {
-        const match = data.find(
-          (item: any) => item.region === region.name
-        );
+        const updatedRegions = initialRegions.map((region) => {
+          const match = data.find(
+            (item: any) => item.region === region.name
+          );
 
-        return {
-          ...region,
-          votes: match?._count?.region || 0,
-        };
-      });
+          return {
+            ...region,
+            votes: match?._count?.region || 0,
+          };
+        });
 
-      setRegions(updatedRegions);
+        setRegions(updatedRegions);
 
-      // auto-select highest voted region
-      const topRegion = [...updatedRegions].sort(
-        (a, b) => b.votes - a.votes
-      )[0];
+        const topRegion = [...updatedRegions].sort(
+          (a, b) => b.votes - a.votes
+        )[0];
 
-      setActiveRegion(topRegion);
+        setActiveRegion(topRegion);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    fetchVotes();
 
-  // initial fetch
-  fetchVotes();
+    const interval = setInterval(fetchVotes, 3000);
 
-  // refresh every 3 sec
-  const interval = setInterval(fetchVotes, 3000);
-
-  return () => clearInterval(interval);
-
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
   const maxVotes = useMemo(() => {
     return Math.max(...regions.map((r) => r.votes), 1);
@@ -241,14 +236,15 @@ useEffect(() => {
   }, [regions]);
 
   const getRadius = (votes: number) => {
-    return 10 + (votes / maxVotes) * 42;
+    return 8 + (votes / maxVotes) * 26;
   };
 
   return (
     <section
       id="vote-map"
-      className="relative overflow-hidden bg-[#031313] py-24"
+      className="relative overflow-hidden bg-[#031313] py-14 md:py-24"
     >
+      {/* GRID */}
       <div className="absolute inset-0 opacity-[0.04]">
         <div
           className="h-full w-full"
@@ -260,16 +256,51 @@ useEffect(() => {
         />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1800px] px-10">
-        <div className="grid grid-cols-1 gap-20 xl:grid-cols-[1.45fr_0.55fr]">
-          <div className="relative">
-            <div className="mx-auto max-w-[950px]">
-              <PhilippinesSVG className="w-full h-auto opacity-75" />
-            </div>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
 
+        {/* HEADER */}
+        <div className="mb-10 text-center md:mb-16">
+
+          <p className="text-[10px] uppercase tracking-[0.35em] text-green-400 sm:text-xs md:text-sm">
+            Live Regional Participation
+          </p>
+
+          <h2 className="mt-4 text-3xl font-black leading-none text-white sm:text-5xl md:text-6xl">
+            PHILIPPINE
+            <span className="block text-green-400">
+              VOTE MAP
+            </span>
+          </h2>
+
+        </div>
+
+        {/* GRID */}
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+
+          {/* MAP */}
+          <div
+            className="
+              relative
+              overflow-hidden
+              rounded-[28px]
+              border
+              border-green-400/15
+              bg-[#041919]/80
+              backdrop-blur-xl
+
+              h-[580px]
+              sm:h-[760px]
+              lg:h-[980px]
+            "
+          >
+
+            {/* SVG MAP */}
+            <PhilippinesSVG className="opacity-90" />
+
+            {/* DOTS */}
             <svg
               viewBox="0 0 1500 2400"
-              className="absolute inset-0 h-full w-full"
+              className="absolute inset-0 z-10 h-full w-full"
             >
               {regions.map((region) => {
                 const intensity = region.votes / maxVotes;
@@ -279,12 +310,13 @@ useEffect(() => {
                   <g
                     key={region.id}
                     onMouseEnter={() => setActiveRegion(region)}
+                    onClick={() => setActiveRegion(region)}
                     className="cursor-pointer"
                   >
                     <circle
                       cx={region.x}
                       cy={region.y}
-                      r={radius + 12}
+                      r={radius + 10}
                       fill={`rgba(0,255,170,${0.08 + intensity * 0.22})`}
                     />
 
@@ -298,7 +330,7 @@ useEffect(() => {
                     <text
                       x={region.labelX}
                       y={region.labelY}
-                      className="fill-white text-[18px] font-bold"
+                      className="fill-white text-[15px] font-bold"
                     >
                       {region.name}
                     </text>
@@ -306,41 +338,61 @@ useEffect(() => {
                 );
               })}
             </svg>
+
           </div>
 
-          <div className="rounded-[40px] border border-green-400/15 bg-[#061919]/85 p-12">
-            <p className="mb-8 text-xl uppercase tracking-[0.3em] text-green-400">
+          {/* SIDE PANEL */}
+          <div
+            className="
+              rounded-[28px]
+              border
+              border-green-400/15
+              bg-[#061919]/85
+              p-6
+              sm:p-8
+              md:p-10
+              backdrop-blur-xl
+            "
+          >
+
+            <p className="text-[10px] uppercase tracking-[0.35em] text-green-400 sm:text-xs md:text-sm">
               Active Region
             </p>
 
-            <h2 className="text-7xl font-black text-white">
+            <h2 className="mt-4 text-4xl font-black leading-none text-white sm:text-5xl md:text-6xl">
               {activeRegion.name}
             </h2>
 
-            <p className="mt-4 text-3xl text-[#A5B3B3]">
+            <p className="mt-3 text-base text-[#A5B3B3] sm:text-xl md:text-2xl">
               {activeRegion.full}
             </p>
 
-            <div className="mt-16">
-              <div className="text-[90px] font-black leading-none text-green-400">
+            <div className="mt-10 md:mt-14">
+
+              <div className="text-5xl font-black leading-none text-green-400 sm:text-6xl md:text-7xl">
                 {activeRegion.votes.toLocaleString()}
               </div>
 
-              <p className="mt-4 text-3xl text-[#708080]">
+              <p className="mt-3 text-base text-[#708080] md:text-xl">
                 Votes Gathered
               </p>
+
             </div>
 
-            <div className="mt-20">
-              <p className="text-2xl text-[#8FA0A0]">
+            <div className="mt-12 md:mt-16">
+
+              <p className="text-base text-[#8FA0A0] md:text-xl">
                 Total Votes
               </p>
 
-              <p className="mt-4 text-6xl font-black text-green-400">
+              <p className="mt-3 text-4xl font-black text-green-400 sm:text-5xl md:text-6xl">
                 {totalVotes.toLocaleString()}
               </p>
+
             </div>
+
           </div>
+
         </div>
       </div>
     </section>

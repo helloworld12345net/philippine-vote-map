@@ -169,7 +169,7 @@ export default function Home() {
       {/* ========================= */}
       {/* HERO SECTION */}
       {/* ========================= */}
-      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-24 text-center sm:px-6">
 
         {/* LABEL */}
         <p className="mb-6 text-xs uppercase tracking-[0.5em] text-green-400 md:text-sm">
@@ -177,7 +177,7 @@ export default function Home() {
         </p>
 
         {/* TITLE */}
-        <h1 className="max-w-6xl text-5xl font-black leading-none md:text-8xl">
+        <h1 className="max-w-6xl text-3xl font-black leading-[0.95] sm:text-5xl md:text-7xl lg:text-8xl">
           THE PEOPLE’S
           <span className="mt-4 block text-green-400 drop-shadow-[0_0_35px_rgba(0,255,150,0.8)]">
             VOICE
@@ -185,7 +185,7 @@ export default function Home() {
         </h1>
 
         {/* SUBTITLE */}
-        <p className="mt-8 max-w-3xl text-lg leading-relaxed text-gray-300 md:text-2xl">
+        <p className="mt-5 max-w-2xl px-2 text-sm leading-relaxed text-gray-300 sm:text-base md:mt-8 md:text-2xl">
           A transparent real-time voting and participation platform visualizing
           regional engagement of Duterte supporters across the Philippines.
         </p>
@@ -197,42 +197,42 @@ export default function Home() {
             Nationwide Votes
           </p>
 
-          <h2 className="mt-3 text-6xl font-extrabold text-green-400">
+          <h2 className="mt-3 text-3xl font-extrabold text-green-400 sm:text-5xl md:text-6xl">
             {totalVotes.toLocaleString()}
           </h2>
 
         </div>
 
         {/* BUTTONS */}
-        <div className="mt-12 flex flex-wrap justify-center gap-5">
+        <div className="mt-10 flex w-full flex-col items-center gap-4 sm:mt-12 sm:flex-row sm:justify-center">
 
           {/* VOTE NOW */}
           <Link
             href={isSignedIn ? "/vote" : "/sign-up"}
-            className="rounded-full bg-green-400 px-10 py-5 font-bold text-black shadow-[0_0_35px_rgba(0,255,150,0.5)] transition-all duration-300 hover:scale-105 hover:bg-green-300"
+           className="w-full max-w-[320px] rounded-full bg-green-400 px-8 py-4 text-center font-bold text-black shadow-[0_0_35px_rgba(0,255,150,0.5)] transition-all duration-300 hover:scale-105 hover:bg-green-300"
           >
             {isSignedIn ? "Enter Voting Portal" : "Vote Now"}
           </Link>
 
           {/* EXPLORE */}
           <a
-            href="#vote-map"
-            className="rounded-full border border-green-400 px-10 py-5 font-bold text-green-400 transition-all duration-300 hover:scale-105 hover:bg-green-400 hover:text-black"
-          >
-            Explore Regions
-          </a>
+  href="#vote-map"
+  className="w-full max-w-[320px] rounded-full border border-green-400 px-8 py-4 text-center font-bold text-green-400 transition-all duration-300 hover:scale-105 hover:bg-green-400 hover:text-black"
+>
+  Explore Regions
+</a>
 
         </div>
 
         {/* FEATURE CARDS */}
-        <div className="mt-24 grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mt-20 grid w-full max-w-6xl grid-cols-1 gap-5 md:grid-cols-3">
 
           {/* CARD 1 */}
           <div className="rounded-3xl border border-green-400/10 bg-[#071F1F]/70 p-8 backdrop-blur-md transition hover:border-green-400/30">
 
             <ShieldCheck className="mb-5 h-12 w-12 text-green-400" />
 
-            <h3 className="mb-3 text-2xl font-bold">
+            <h3 className="mb-3 text-xl md:text-2xl font-bold">
               Transparent
             </h3>
 
@@ -247,7 +247,7 @@ export default function Home() {
 
             <MapPinned className="mb-5 h-12 w-12 text-green-400" />
 
-            <h3 className="mb-3 text-2xl font-bold">
+            <h3 className="mb-3 text-xl md:text-2xl font-bold">
               Regional Mapping
             </h3>
 
@@ -262,7 +262,7 @@ export default function Home() {
 
             <Vote className="mb-5 h-12 w-12 text-green-400" />
 
-            <h3 className="mb-3 text-2xl font-bold">
+            <h3 className="mb-3 text-xl md:text-2xl font-bold">
               Civic Participation
             </h3>
 
@@ -367,7 +367,7 @@ export default function Home() {
         Support The Platform
       </p>
 
-      <h2 className="text-4xl font-black text-white md:text-6xl">
+      <h2 className="text-2xl font-black text-white sm:text-4xl md:text-6xl">
         KEEP THE
         <span className="block text-green-400">
           MOVEMENT LIVE
@@ -413,7 +413,7 @@ export default function Home() {
       <img
         src="/gcash.jpg"
         alt="GCash QR"
-        className="h-[260px] w-full object-contain p-4"
+        className="h-[220px] w-full object-contain p-4 sm:h-[260px]"
       />
 
     </div>
