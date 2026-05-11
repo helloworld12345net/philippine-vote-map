@@ -1,6 +1,5 @@
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-
 
 export async function GET() {
   try {
@@ -14,7 +13,7 @@ export async function GET() {
     return NextResponse.json(votes);
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return NextResponse.json(
       { error: "Failed to fetch results" },
