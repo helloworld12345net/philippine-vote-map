@@ -1,8 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../lib/prisma";
 import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
@@ -50,4 +49,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+}   
