@@ -1,7 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-
 
 export async function GET() {
   try {
@@ -34,8 +33,12 @@ export async function GET() {
     console.log(error);
 
     return NextResponse.json(
-      { error: "Server error" },
-      { status: 500 }
+      {
+        error: "Server error",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }
