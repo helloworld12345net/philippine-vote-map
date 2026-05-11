@@ -2,6 +2,8 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const { userId } = await auth();
@@ -18,22 +20,17 @@ export async function GET() {
       },
     });
 
-    if (!vote) {
-      return NextResponse.json({
-        voted: false,
-      });
-    }
-
     return NextResponse.json({
-      voted: true,
-      region: vote.region,
+      voted: !!vote,
+      region: vote?.region || null,
     });
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return NextResponse.json(
       {
+        voted: false,
         error: "Server error",
       },
       {
