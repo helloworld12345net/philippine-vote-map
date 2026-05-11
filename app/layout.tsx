@@ -14,6 +14,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <meta
+            name="google-adsense-account"
+            content="ca-pub-3046539488911586"
+          />
+        </head> 
         <body>{children}</body>
       </html>
     </ClerkProvider>
