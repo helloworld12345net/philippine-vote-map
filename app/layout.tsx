@@ -1,6 +1,8 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import InAppBrowserWarning from "@/components/InAppBrowserWarning";
+import { Analytics } from "@vercel/analytics/react";
+
 export const metadata = {
   title: "Philippine Vote Map",
   description: "Duterte Supporters Vote Map",
@@ -23,6 +25,7 @@ export default function RootLayout({
         <body>
   <InAppBrowserWarning />
   {children}
+<Analytics />
         </body>
       </html>
     </ClerkProvider>
