@@ -41,14 +41,16 @@ export async function POST(req: Request) {
 
     return NextResponse.json(vote);
 
-  } catch (error) {
+} catch (error) {
 
-    console.log(error);
+  console.log(error);
 
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 }
-    );
+  return NextResponse.json(
+    {
+      error: String(error),
+    },
+    { status: 500 }
+  );
 
-  }
+}  }
 }
