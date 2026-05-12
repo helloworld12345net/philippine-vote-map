@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const vote = await prisma.vote.create({
+    const vote = await prisma.votes.create({
       data: {
         email,
         signature,
