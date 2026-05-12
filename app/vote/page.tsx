@@ -108,7 +108,25 @@ export default function VotePage() {
             <p className="mt-4 text-lg text-gray-300">
               {message}
             </p>
-
+<div className="mt-8 flex justify-center">
+  <a
+    href="/"
+    className="
+      rounded-2xl
+      bg-green-400
+      px-6
+      py-4
+      font-bold
+      text-black
+      transition-all
+      duration-300
+      hover:bg-green-300
+      hover:scale-105
+    "
+  >
+    Check Results
+  </a>
+</div>
           </div>
 
         ) : (
