@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Vote {
+model Votes {
   id         String    @id @default(cuid())
   email      String?   @unique
   signature  String?
