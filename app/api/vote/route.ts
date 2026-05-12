@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // CHECK DUPLICATE EMAIL
+    // CHECK IF EMAIL ALREADY EXISTS
     const existingVote = await prisma.vote.findUnique({
       where: {
         email,
