@@ -9,9 +9,9 @@ datasource db {
 }
 
 model Vote {
-  id         String   @id @default(cuid())
-  email     String? @unique
-  signature String?
+  id         String    @id @default(cuid())
+  email      String?   @unique
+  signature  String?
   region     String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
 }
