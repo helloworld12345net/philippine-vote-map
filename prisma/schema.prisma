@@ -1,4 +1,3 @@
-// latest fix
 generator client {
   provider = "prisma-client-js"
 }
