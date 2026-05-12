@@ -1,13 +1,14 @@
-// latest fix
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
+
     const body = await req.json();
 
     const { email, signature, region } = body;
 
+    // VALIDATION
     if (!email || !signature || !region) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -15,7 +16,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const existingVote = await prisma.vote.findUnique({
+    // CHECK DUPLICATE EMAIL
+    const existingVote = await prisma.votes.findUnique({
       where: {
         email,
       },
@@ -28,6 +30,7 @@ export async function POST(req: Request) {
       );
     }
 
+    // SAVE VOTE
     const vote = await prisma.votes.create({
       data: {
         email,
