@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // CHECK IF EMAIL ALREADY VOTED
+    // CHECK DUPLICATE EMAIL
     const existingVote = await prisma.vote.findUnique({
       where: {
         email,
@@ -41,16 +41,16 @@ export async function POST(req: Request) {
 
     return NextResponse.json(vote);
 
-} catch (error) {
+  } catch (error) {
 
-  console.log(error);
+    console.log(error);
 
-  return NextResponse.json(
-    {
-      error: String(error),
-    },
-    { status: 500 }
-  );
+    return NextResponse.json(
+      {
+        error: String(error),
+      },
+      { status: 500 }
+    );
 
-}  }
+  }
 }
