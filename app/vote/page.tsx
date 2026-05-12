@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const regions = [
   "Region I",
@@ -23,36 +23,22 @@ const regions = [
 ];
 
 export default function VotePage() {
+  const [email, setEmail] = useState("");
+  const [signature, setSignature] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [alreadyVoted, setAlreadyVoted] = useState(false);
 
-  useEffect(() => {
-    const checkVote = async () => {
-      try {
-        const res = await fetch("/api/check-vote");
-        const data = await res.json();
-
-        if (data.voted) {
-          setAlreadyVoted(true);
-          setMessage(`You already voted for ${data.region}`);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    checkVote();
-  }, []);
-
   const handleVote = async () => {
-    if (!selectedRegion) {
-      setMessage("Please select a region.");
+
+    if (!email || !signature || !selectedRegion) {
+      setMessage("Please complete all fields.");
       return;
     }
 
     try {
+
       setLoading(true);
 
       const res = await fetch("/api/vote", {
@@ -61,6 +47,8 @@ export default function VotePage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          email,
+          signature,
           region: selectedRegion,
         }),
       });
@@ -73,18 +61,25 @@ export default function VotePage() {
       }
 
       setAlreadyVoted(true);
+
       setMessage(`Vote submitted for ${selectedRegion}!`);
 
     } catch (error) {
+
       console.log(error);
+
       setMessage("Server error");
+
     } finally {
+
       setLoading(false);
+
     }
   };
 
   return (
     <main className="min-h-screen bg-[#031313] px-6 py-24 text-white">
+
       <div className="mx-auto max-w-2xl rounded-[40px] border border-green-400/20 bg-[#071919] p-12">
 
         <p className="mb-4 text-sm uppercase tracking-[0.4em] text-green-400">
@@ -99,10 +94,11 @@ export default function VotePage() {
         </h1>
 
         <p className="mt-6 text-lg text-gray-400">
-          Select your Philippine region and submit your participation.
+          Enter your details and select your Philippine region.
         </p>
 
         {alreadyVoted ? (
+
           <div className="mt-12 rounded-3xl border border-green-400/20 bg-[#041414] p-10 text-center">
 
             <h2 className="text-3xl font-bold text-green-400">
@@ -114,9 +110,47 @@ export default function VotePage() {
             </p>
 
           </div>
+
         ) : (
+
           <>
-            <div className="mt-12">
+
+            {/* EMAIL */}
+            <div className="mt-10">
+
+              <label className="mb-4 block text-sm uppercase tracking-[0.3em] text-green-300">
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full rounded-2xl border border-green-400/20 bg-[#041414] p-5 text-white outline-none"
+              />
+
+            </div>
+
+            {/* SIGNATURE */}
+            <div className="mt-8">
+
+              <label className="mb-4 block text-sm uppercase tracking-[0.3em] text-green-300">
+                Full Name / Signature
+              </label>
+
+              <input
+                type="text"
+                value={signature}
+                onChange={(e) => setSignature(e.target.value)}
+                placeholder="Type your full name"
+                className="w-full rounded-2xl border border-green-400/20 bg-[#041414] p-5 text-white outline-none"
+              />
+
+            </div>
+
+            {/* REGION */}
+            <div className="mt-8">
 
               <label className="mb-4 block text-sm uppercase tracking-[0.3em] text-green-300">
                 Select Region
@@ -127,6 +161,7 @@ export default function VotePage() {
                 onChange={(e) => setSelectedRegion(e.target.value)}
                 className="w-full rounded-2xl border border-green-400/20 bg-[#041414] p-5 text-white outline-none"
               >
+
                 <option value="">Choose Region</option>
 
                 {regions.map((region) => (
@@ -134,10 +169,12 @@ export default function VotePage() {
                     {region}
                   </option>
                 ))}
+
               </select>
 
             </div>
 
+            {/* SUBMIT */}
             <button
               onClick={handleVote}
               disabled={loading}
@@ -145,16 +182,21 @@ export default function VotePage() {
             >
               {loading ? "Submitting..." : "Submit Vote"}
             </button>
+
           </>
+
         )}
 
         {message && !alreadyVoted && (
+
           <div className="mt-8 rounded-2xl border border-green-400/20 bg-[#041414] p-5 text-center text-green-300">
             {message}
           </div>
+
         )}
 
       </div>
+
     </main>
   );
 }
