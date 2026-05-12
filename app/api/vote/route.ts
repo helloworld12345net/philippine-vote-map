@@ -8,6 +8,13 @@ export async function POST(req: Request) {
 
     const { email, signature, region } = body;
 
+    // GET USER IP
+    const forwardedFor = req.headers.get("x-forwarded-for");
+
+    const ipAddress = forwardedFor
+      ? forwardedFor.split(",")[0].trim()
+      : "unknown";
+
     // VALIDATION
     if (!email || !signature || !region) {
       return NextResponse.json(
@@ -16,16 +23,30 @@ export async function POST(req: Request) {
       );
     }
 
-    // CHECK DUPLICATE EMAIL
-    const existingVote = await prisma.votes.findUnique({
+    // CHECK EMAIL DUPLICATE
+    const existingEmailVote = await prisma.votes.findUnique({
       where: {
         email,
       },
     });
 
-    if (existingVote) {
+    if (existingEmailVote) {
       return NextResponse.json(
         { error: "This email has already voted" },
+        { status: 400 }
+      );
+    }
+
+    // CHECK IP DUPLICATE
+    const existingIpVote = await prisma.votes.findFirst({
+      where: {
+        ipAddress,
+      },
+    });
+
+    if (existingIpVote) {
+      return NextResponse.json(
+        { error: "This IP address has already voted" },
         { status: 400 }
       );
     }
@@ -36,6 +57,7 @@ export async function POST(req: Request) {
         email,
         signature,
         region,
+        ipAddress,
       },
     });
 
