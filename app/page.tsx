@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { ShieldCheck, MapPinned, Vote } from "lucide-react";
 import PhilippinesMap from "./PhilippinesMap";
@@ -9,7 +8,6 @@ import TopRegions from "./TopRegions";
 import LiveFeed from "./LiveFeed";
 
 export default function Home() {
-  const { isSignedIn } = useUser();
 
   const [totalVotes, setTotalVotes] = useState(0);
 
@@ -208,11 +206,11 @@ export default function Home() {
 
           {/* VOTE NOW */}
           <Link
-            href={isSignedIn ? "/vote" : "/sign-up"}
-           className="w-full max-w-[320px] rounded-full bg-green-400 px-8 py-4 text-center font-bold text-black shadow-[0_0_35px_rgba(0,255,150,0.5)] transition-all duration-300 hover:scale-105 hover:bg-green-300"
-          >
-            {isSignedIn ? "Enter Voting Portal" : "Vote Now"}
-          </Link>
+  href="/vote"
+  className="w-full max-w-[320px] rounded-full bg-green-400 px-8 py-4 text-center font-bold text-black shadow-[0_0_35px_rgba(0,255,150,0.5)] transition-all duration-300 hover:scale-105 hover:bg-green-300"
+>
+  Vote Now
+</Link>
 
           {/* EXPLORE */}
           <a
