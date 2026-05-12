@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const votes = await prisma.vote.groupBy({
+
+    const votes = await prisma.votes.groupBy({
       by: ["region"],
       _count: {
         region: true,
@@ -13,11 +14,13 @@ export async function GET() {
     return NextResponse.json(votes);
 
   } catch (error) {
+
     console.error(error);
 
     return NextResponse.json(
       { error: "Failed to fetch results" },
       { status: 500 }
     );
+
   }
 }
