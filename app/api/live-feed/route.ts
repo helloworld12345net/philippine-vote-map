@@ -1,31 +1,26 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function GET() {
   try {
 
-    const votes = await prisma.vote.findMany({
+    const votes = await prisma.votes.findMany({
       orderBy: {
         createdAt: "desc",
       },
-      take: 3,
-      select: {
-        id: true,
-        region: true,
-        createdAt: true,
-      },
+      take: 20,
     });
 
     return NextResponse.json(votes);
 
   } catch (error) {
-    console.log(error);
+
+    console.error(error);
 
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Failed to fetch live feed" },
       { status: 500 }
     );
+
   }
 }
