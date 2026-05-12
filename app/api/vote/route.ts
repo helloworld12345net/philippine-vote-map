@@ -1,40 +1,40 @@
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-
 export async function POST(req: Request) {
   try {
-    const { userId } = await auth();
 
-    if (!userId) {
+    const body = await req.json();
+
+    const { email, signature, region } = body;
+
+    // VALIDATION
+    if (!email || !signature || !region) {
       return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
+        { error: "Missing required fields" },
+        { status: 400 }
       );
     }
 
-    const body = await req.json();
-    const { region } = body;
-
-    // Prevent duplicate votes
+    // CHECK IF EMAIL ALREADY VOTED
     const existingVote = await prisma.vote.findUnique({
       where: {
-        userId,
+        email,
       },
     });
 
     if (existingVote) {
       return NextResponse.json(
-        { error: "You already voted" },
+        { error: "This email has already voted" },
         { status: 400 }
       );
     }
 
-    // Save vote
+    // SAVE VOTE
     const vote = await prisma.vote.create({
       data: {
-        userId,
+        email,
+        signature,
         region,
       },
     });
@@ -42,11 +42,13 @@ export async function POST(req: Request) {
     return NextResponse.json(vote);
 
   } catch (error) {
+
     console.log(error);
 
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
     );
+
   }
-}   
+}
