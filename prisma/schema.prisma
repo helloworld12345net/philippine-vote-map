@@ -11,6 +11,7 @@ model Votes {
   id         String    @id @default(cuid())
   email      String?   @unique
   signature  String?
+  ipAddress  String?   @unique
   region     String
   createdAt  DateTime  @default(now())
 }
