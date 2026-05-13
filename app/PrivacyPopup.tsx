@@ -28,7 +28,9 @@ export default function PrivacyPopup() {
           <p className="text-sm md:text-[15px] text-gray-200 leading-relaxed">
             This platform uses anonymous analytics and regional participation
             tracking to maintain transparency, prevent duplicate voting, and
-            improve user experience.
+            improve user experience. Any email address provided is used solely
+            for platform participation and verification purposes and will never
+            be sold, shared, or used outside this platform.
           </p>
 
           <button
