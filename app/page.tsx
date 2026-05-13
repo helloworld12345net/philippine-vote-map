@@ -171,7 +171,7 @@ export default function Home() {
 
         {/* LABEL */}
         <p className="mb-6 text-xs uppercase tracking-[0.5em] text-green-400 md:text-sm">
-          DUTERTE SUPPORTERS VOTE MAP
+          PEACE FOR EVERY FILIPINO
         </p>
 
         {/* TITLE */}
@@ -184,8 +184,7 @@ export default function Home() {
 
         {/* SUBTITLE */}
         <p className="mt-5 max-w-2xl px-2 text-sm leading-relaxed text-gray-300 sm:text-base md:mt-8 md:text-2xl">
-          A transparent real-time voting and participation platform visualizing
-          regional engagement of Duterte supporters across the Philippines.
+          A transparent real-time participation platform highlighting the collective voice of Filipinos striving for peace, unity, responsible governance, and national progress.
         </p>
 
         {/* STATS CARD */}
