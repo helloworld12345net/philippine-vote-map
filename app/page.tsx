@@ -6,7 +6,7 @@ import { ShieldCheck, MapPinned, Vote } from "lucide-react";
 import PhilippinesMap from "./PhilippinesMap";
 import TopRegions from "./TopRegions";
 import LiveFeed from "./LiveFeed";
-
+import PrivacyPopup from "./PrivacyPopup";
 export default function Home() {
 
   const [totalVotes, setTotalVotes] = useState(0);
@@ -447,7 +447,7 @@ export default function Home() {
   </div>
 
 </section>
-
+<PrivacyPopup />
     </main>
   );
 }
