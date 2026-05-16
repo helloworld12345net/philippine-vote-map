@@ -31,7 +31,7 @@ export default function ShareButtons() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 py-8">
+    <div className="relative z-50 flex flex-col items-center gap-4 py-8">
       <h2 className="text-xl font-bold text-center">
         Share this movement 🇵🇭
       </h2>
