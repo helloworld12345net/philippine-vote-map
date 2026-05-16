@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  Facebook,
-  MessageCircle,
-  Send,
-  Share2,
-} from "lucide-react";
-
 export default function ShareButtons() {
   const shareUrl = "https://voteforpeaceph.vercel.app/";
   const shareText =
@@ -17,7 +10,6 @@ export default function ShareButtons() {
 
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-    twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
     whatsapp: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
     telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
   };
@@ -46,9 +38,8 @@ export default function ShareButtons() {
 
       <button
         onClick={nativeShare}
-        className="flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold hover:scale-105 transition"
+        className="bg-white text-black px-6 py-3 rounded-full font-semibold hover:scale-105 transition"
       >
-        <Share2 size={20} />
         Share Now
       </button>
 
@@ -56,25 +47,25 @@ export default function ShareButtons() {
         <a
           href={shareLinks.facebook}
           target="_blank"
-          className="bg-blue-600 p-3 rounded-full hover:scale-110 transition"
+          className="bg-blue-600 px-4 py-2 rounded-full hover:scale-110 transition"
         >
-          <Facebook />
+          Facebook
         </a>
 
         <a
           href={shareLinks.whatsapp}
           target="_blank"
-          className="bg-green-500 p-3 rounded-full hover:scale-110 transition"
+          className="bg-green-500 px-4 py-2 rounded-full hover:scale-110 transition"
         >
-          <MessageCircle />
+          WhatsApp
         </a>
 
         <a
           href={shareLinks.telegram}
           target="_blank"
-          className="bg-cyan-500 p-3 rounded-full hover:scale-110 transition"
+          className="bg-cyan-500 px-4 py-2 rounded-full hover:scale-110 transition"
         >
-          <Send />
+          Telegram
         </a>
       </div>
     </div>
