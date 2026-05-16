@@ -450,7 +450,9 @@ export default function Home() {
 
 </section>
 <PrivacyPopup />
-<ShareButtons />
+<div className="relative z-50">
+  <ShareButtons />
+</div>
     </main>
   );
 }
