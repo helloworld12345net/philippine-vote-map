@@ -2,7 +2,6 @@
 
 import {
   Facebook,
-  Twitter,
   MessageCircle,
   Send,
   Share2,
@@ -60,14 +59,6 @@ export default function ShareButtons() {
           className="bg-blue-600 p-3 rounded-full hover:scale-110 transition"
         >
           <Facebook />
-        </a>
-
-        <a
-          href={shareLinks.twitter}
-          target="_blank"
-          className="bg-sky-500 p-3 rounded-full hover:scale-110 transition"
-        >
-          <Twitter />
         </a>
 
         <a
