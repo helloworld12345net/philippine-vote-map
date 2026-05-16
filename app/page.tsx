@@ -7,6 +7,8 @@ import PhilippinesMap from "./PhilippinesMap";
 import TopRegions from "./TopRegions";
 import LiveFeed from "./LiveFeed";
 import PrivacyPopup from "./PrivacyPopup";
+import ShareButtons from "@/components/ShareButtons";
+
 export default function Home() {
 
   const [totalVotes, setTotalVotes] = useState(0);
@@ -448,6 +450,7 @@ export default function Home() {
 
 </section>
 <PrivacyPopup />
+<ShareButtons />
     </main>
   );
 }
