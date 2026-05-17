@@ -7,11 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Votes {
-  id         String    @id @default(cuid())
-  email      String?   @unique
-  signature  String?
-  ipAddress  String?   @unique
-  region     String
-  createdAt  DateTime  @default(now())
+model votes {
+  id            String   @id @default(cuid())
+  fingerprintId String   @unique
+  signature     String
+  region        String
+  ipAddress     String
+  createdAt     DateTime @default(now())
 }
