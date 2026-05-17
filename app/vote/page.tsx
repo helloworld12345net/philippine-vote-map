@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 const regions = [
   "Region I",
@@ -23,16 +24,28 @@ const regions = [
 ];
 
 export default function VotePage() {
-  const [email, setEmail] = useState("");
+
   const [signature, setSignature] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [alreadyVoted, setAlreadyVoted] = useState(false);
 
+  // CHECK LOCAL DEVICE LOCK
+  useEffect(() => {
+
+    const voted = localStorage.getItem("voted");
+
+    if (voted) {
+      setAlreadyVoted(true);
+      setMessage("This device has already voted.");
+    }
+
+  }, []);
+
   const handleVote = async () => {
 
-    if (!email || !signature || !selectedRegion) {
+    if (!signature || !selectedRegion) {
       setMessage("Please complete all fields.");
       return;
     }
@@ -41,13 +54,20 @@ export default function VotePage() {
 
       setLoading(true);
 
+      // GENERATE DEVICE FINGERPRINT
+      const fp = await FingerprintJS.load();
+
+      const result = await fp.get();
+
+      const fingerprintId = result.visitorId;
+
       const res = await fetch("/api/vote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          fingerprintId,
           signature,
           region: selectedRegion,
         }),
@@ -59,6 +79,9 @@ export default function VotePage() {
         setMessage(data.error || "Something went wrong");
         return;
       }
+
+      // SAVE LOCAL LOCK
+      localStorage.setItem("voted", "true");
 
       setAlreadyVoted(true);
 
@@ -94,7 +117,7 @@ export default function VotePage() {
         </h1>
 
         <p className="mt-6 text-lg text-gray-400">
-          Enter your details and select your Philippine region.
+          Support peace and unity by participating in the public vote.
         </p>
 
         {alreadyVoted ? (
@@ -108,50 +131,37 @@ export default function VotePage() {
             <p className="mt-4 text-lg text-gray-300">
               {message}
             </p>
-<div className="mt-8 flex justify-center">
-  <a
-    href="/"
-    className="
-      rounded-2xl
-      bg-green-400
-      px-6
-      py-4
-      font-bold
-      text-black
-      transition-all
-      duration-300
-      hover:bg-green-300
-      hover:scale-105
-    "
-  >
-    Check Results
-  </a>
-</div>
+
+            <div className="mt-8 flex justify-center">
+
+              <a
+                href="/"
+                className="
+                  rounded-2xl
+                  bg-green-400
+                  px-6
+                  py-4
+                  font-bold
+                  text-black
+                  transition-all
+                  duration-300
+                  hover:bg-green-300
+                  hover:scale-105
+                "
+              >
+                Check Results
+              </a>
+
+            </div>
+
           </div>
 
         ) : (
 
           <>
 
-            {/* EMAIL */}
-            <div className="mt-10">
-
-              <label className="mb-4 block text-sm uppercase tracking-[0.3em] text-green-300">
-                Email Address
-              </label>
-
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full rounded-2xl border border-green-400/20 bg-[#041414] p-5 text-white outline-none"
-              />
-
-            </div>
-
             {/* SIGNATURE */}
-            <div className="mt-8">
+            <div className="mt-10">
 
               <label className="mb-4 block text-sm uppercase tracking-[0.3em] text-green-300">
                 Full Name / Signature
@@ -196,7 +206,20 @@ export default function VotePage() {
             <button
               onClick={handleVote}
               disabled={loading}
-              className="mt-10 w-full rounded-2xl bg-green-400 px-8 py-5 text-lg font-bold text-black transition hover:bg-green-300 disabled:opacity-50"
+              className="
+                mt-10
+                w-full
+                rounded-2xl
+                bg-green-400
+                px-8
+                py-5
+                text-lg
+                font-bold
+                text-black
+                transition
+                hover:bg-green-300
+                disabled:opacity-50
+              "
             >
               {loading ? "Submitting..." : "Submit Vote"}
             </button>
