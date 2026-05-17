@@ -6,7 +6,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { email, signature, region } = body;
+    const { fingerprintId, signature, region } = body;
 
     // GET USER IP
     const forwardedFor = req.headers.get("x-forwarded-for");
@@ -16,23 +16,23 @@ export async function POST(req: Request) {
       : "unknown";
 
     // VALIDATION
-    if (!email || !signature || !region) {
+    if (!fingerprintId || !signature || !region) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    // CHECK EMAIL DUPLICATE
-    const existingEmailVote = await prisma.votes.findUnique({
+    // CHECK FINGERPRINT DUPLICATE
+    const existingFingerprint = await prisma.votes.findUnique({
       where: {
-        email,
+        fingerprintId,
       },
     });
 
-    if (existingEmailVote) {
+    if (existingFingerprint) {
       return NextResponse.json(
-        { error: "This email has already voted" },
+        { error: "This device has already voted" },
         { status: 400 }
       );
     }
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
     if (existingIpVote) {
       return NextResponse.json(
-        { error: "This IP address has already voted" },
+        { error: "This network has already voted" },
         { status: 400 }
       );
     }
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     // SAVE VOTE
     const vote = await prisma.votes.create({
       data: {
-        email,
+        fingerprintId,
         signature,
         region,
         ipAddress,
